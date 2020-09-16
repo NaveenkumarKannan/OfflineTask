@@ -37,6 +37,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //Recyclerview
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     // JSON Parsing
@@ -53,4 +55,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
+    //MaterialSearchBar
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 }
