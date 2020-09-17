@@ -1,10 +1,12 @@
 package com.naveenkumar.offlinetask.activity
 
 import android.app.ProgressDialog
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.naveenkumar.offlinetask.R
@@ -29,9 +31,20 @@ class MainActivity : AppCompatActivity() {
         dialog = ProgressDialog(this)
         dialog.setCancelable(false)
 
+        srl.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        srl.setColorSchemeColors(Color.DKGRAY)
+
+        srl.setOnRefreshListener {
+            setItemsData()
+        }
+        setItemsData()
+    }
+    private fun setItemsData() {
         if(Utility.checkInternetConnection(this)){
             dialog.setMessage("Please wait...")
             dialog.show()
+            srl.isRefreshing = true
+            adapter.repo = mutableListOf()
             Utility.startRetrofit()
             val apiManager = Utility.retrofit.create(ApiManager::class.java)
 
@@ -44,11 +57,12 @@ class MainActivity : AppCompatActivity() {
                     if (dialog.isShowing)
                         dialog.dismiss()
                     if (response?.body() != null) {
-                        Log.e(TAG, Gson().toJson(response?.body()))
+                        Log.e(TAG, Gson().toJson(response.body()))
                         rv_repos.layoutManager = LinearLayoutManager(this@MainActivity)
                         rv_repos.setHasFixedSize(true)
                         rv_repos.adapter = adapter
-                        adapter.setData(response?.body() as ArrayList<Repo>)
+                        srl.isRefreshing = false
+                        adapter.setData(response.body() as ArrayList<Repo>)
                     }else{
                         Log.e(TAG, "Null Response")
                     }
@@ -67,6 +81,5 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
         }
-
     }
 }

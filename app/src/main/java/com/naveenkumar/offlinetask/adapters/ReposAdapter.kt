@@ -13,7 +13,7 @@ typealias ListItemClickListener = (position: Int) -> Unit
 
 class ReposAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var repo: List<Repo> = mutableListOf()
+    var repo: List<Repo> = mutableListOf()
 
     private var mListItemClickListener: ListItemClickListener? = null
 
