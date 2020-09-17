@@ -14,9 +14,10 @@
         app:mt_placeholderColor="@android:color/black"
         app:mt_maxSuggestionsCount="10"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:id="@+id/searchBar"/>
     <FrameLayout
+        android:visibility="visible"
         android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

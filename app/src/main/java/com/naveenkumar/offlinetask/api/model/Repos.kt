@@ -3,7 +3,7 @@ package com.naveenkumar.offlinetask.api.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Repo {
+class Repos {
     @SerializedName("author")
     @Expose
     var author: String? = null

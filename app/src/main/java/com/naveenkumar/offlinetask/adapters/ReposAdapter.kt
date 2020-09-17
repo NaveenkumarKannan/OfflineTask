@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.naveenkumar.offlinetask.R
-import com.naveenkumar.offlinetask.api.model.Repo
+import com.naveenkumar.offlinetask.room.Repo
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.list_item.view.*
 
@@ -13,7 +13,7 @@ typealias ListItemClickListener = (position: Int) -> Unit
 
 class ReposAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var repo: List<Repo> = mutableListOf()
+    private var repo: List<Repo> = mutableListOf()
 
     private var mListItemClickListener: ListItemClickListener? = null
 
