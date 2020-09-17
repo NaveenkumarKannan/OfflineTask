@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/searchBar"/>
     <FrameLayout
-        android:visibility="visible"
-        android:id="@+id/fl"
+        android:visibility="gone"
+        android:id="@+id/fl_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -35,4 +35,74 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="visible"
+        android:background="@color/colorPrimaryDark"
+        >
+
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:src="@drawable/boss" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/oops"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/no_internet"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/please_check_your_network_connection" />
+
+        <Button
+            android:id="@+id/btn_try_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/try_again"
+            android:layout_marginTop="3dp"
+            android:textColor="#009688"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="@color/colorPrimary"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="visible"
+        android:background="@color/colorPrimaryDark">
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </LinearLayout>

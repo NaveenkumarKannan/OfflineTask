@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         ).get(RepoViewModel::class.java)
     }
 
-    private lateinit var dialog: ProgressDialog
+    //private lateinit var dialog: ProgressDialog
     private val TAG = "MainActivity"
     val adapter = ReposAdapter()
 
@@ -47,11 +49,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dialog = ProgressDialog(this)
-        dialog.setCancelable(false)
+        //dialog = ProgressDialog(this)
+        //dialog.setCancelable(false)
 
-        initRecyclerView()
-
+        btn_try_again.setOnClickListener {
+            setItemsData()
+        }
         searchBar = findViewById(R.id.searchBar)
         searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener {
             override fun onSearchStateChanged(enabled: Boolean) {}
@@ -89,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun afterTextChanged(editable: Editable) {}
         })
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
@@ -122,22 +126,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (dialog.isShowing) {
+        /*if (dialog.isShowing) {
             dialog.show()
-        }
+        }*/
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (dialog.isShowing) {
+        /*if (dialog.isShowing) {
             dialog.show()
-        }
+        }*/
     }
 
     private fun setItemsData() {
+        searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
+        fl_recyclerview.visibility = View.GONE
+        ll_no_internet.visibility = View.GONE
+        ll_progress_bar.visibility = View.VISIBLE
         if (Utility.checkInternetConnection(this)) {
-            dialog.setMessage("Please wait...")
-            dialog.show()
+            //dialog.setMessage("Please wait...")
+            //dialog.show()
             srl.isRefreshing = true
             //adapter.repos = mutableListOf()
             Utility.startRetrofit()
@@ -149,8 +157,8 @@ class MainActivity : AppCompatActivity() {
                     call: Call<List<Repos?>?>?,
                     response: Response<List<Repos?>?>?
                 ) {
-                    if (dialog.isShowing)
-                        dialog.dismiss()
+                    /*if (dialog.isShowing)
+                        dialog.dismiss()*/
                     if (response?.body() != null) {
                         Log.e(TAG, Gson().toJson(response.body()))
                         rv_repos.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -176,6 +184,10 @@ class MainActivity : AppCompatActivity() {
 
                             repoViewModel.insert(newRepo)
                         }
+                        searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.VISIBLE
+                        fl_recyclerview.visibility = View.VISIBLE
+                        ll_no_internet.visibility = View.GONE
+                        ll_progress_bar.visibility = View.GONE
                     } else {
                         Log.e(TAG, "Null Response")
                     }
@@ -183,18 +195,23 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<List<Repos?>?>?, t: Throwable) {
                     srl.isRefreshing = false
-                    if (dialog.isShowing) {
+                    /*if (dialog.isShowing) {
                         dialog.dismiss()
-                    }
+                    }*/
                     Log.e(TAG, "onFailure $t")
                 }
             })
         } else run {
             Utility.makeText(baseContext, "Please Check the Internet", Toast.LENGTH_SHORT)
             srl.isRefreshing = false
-            if (dialog.isShowing) {
+            /*if (dialog.isShowing) {
                 dialog.dismiss()
-            }
+            }*/
+
+            searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
+            fl_recyclerview.visibility = View.GONE
+            ll_no_internet.visibility = View.VISIBLE
+            ll_progress_bar.visibility = View.GONE
         }
     }
 

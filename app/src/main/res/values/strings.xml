@@ -3,4 +3,8 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="lang">Language</string>
+    <string name="try_again">TRY AGAIN</string>
+    <string name="oops">OOPS!</string>
+    <string name="no_internet">No network connection</string>
+    <string name="please_check_your_network_connection">Please check your network connection</string>
 </resources>
