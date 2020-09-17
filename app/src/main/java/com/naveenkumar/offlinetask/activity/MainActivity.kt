@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mObjectiveClickedPosition: Int = -1
     lateinit var searchBar: MaterialSearchBar
+    var isLocalRepo = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,10 +84,7 @@ class MainActivity : AppCompatActivity() {
                 i1: Int,
                 i2: Int
             ) {
-                Log.d(
-                    "LOG_TAG",
-                    javaClass.simpleName + " text changed " + searchBar.text
-                )
+                Log.d("LOG_TAG", javaClass.simpleName + " text changed " + searchBar.text)
                 searchNames(searchBar.text)
             }
 
@@ -101,6 +99,16 @@ class MainActivity : AppCompatActivity() {
         rv_repos.adapter = adapter
         repoViewModel.getAllRepos().observe(this, Observer {
             adapter.setData(it)
+            if(it.isEmpty()) {
+                isLocalRepo = false
+            }else {
+                isLocalRepo = true
+
+                searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.VISIBLE
+                fl_recyclerview.visibility = View.VISIBLE
+                ll_no_internet.visibility = View.GONE
+                ll_progress_bar.visibility = View.GONE
+            }
         })
         adapter.setListeners {
             mObjectiveClickedPosition = it
@@ -118,7 +126,9 @@ class MainActivity : AppCompatActivity() {
         srl.setColorSchemeColors(Color.DKGRAY)
 
         srl.setOnRefreshListener {
-            repoViewModel.deleteAllRepos()
+            if(Utility.checkInternetConnection(this)){
+                repoViewModel.deleteAllRepos()
+            }
             setItemsData()
         }
         setItemsData()
@@ -139,10 +149,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setItemsData() {
-        searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
-        fl_recyclerview.visibility = View.GONE
-        ll_no_internet.visibility = View.GONE
-        ll_progress_bar.visibility = View.VISIBLE
+        if(!isLocalRepo){
+            searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
+            fl_recyclerview.visibility = View.GONE
+            ll_no_internet.visibility = View.GONE
+            ll_progress_bar.visibility = View.VISIBLE
+        }else{
+            searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.VISIBLE
+            fl_recyclerview.visibility = View.VISIBLE
+            ll_no_internet.visibility = View.GONE
+            ll_progress_bar.visibility = View.GONE
+        }
+
+
         if (Utility.checkInternetConnection(this)) {
             //dialog.setMessage("Please wait...")
             //dialog.show()
@@ -202,16 +221,23 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         } else run {
-            Utility.makeText(baseContext, "Please Check the Internet", Toast.LENGTH_SHORT)
+            Utility.makeText(baseContext, "No network connection", Toast.LENGTH_SHORT)
             srl.isRefreshing = false
             /*if (dialog.isShowing) {
                 dialog.dismiss()
             }*/
 
-            searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
-            fl_recyclerview.visibility = View.GONE
-            ll_no_internet.visibility = View.VISIBLE
-            ll_progress_bar.visibility = View.GONE
+            if(!isLocalRepo){
+                searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
+                fl_recyclerview.visibility = View.GONE
+                ll_no_internet.visibility = View.VISIBLE
+                ll_progress_bar.visibility = View.GONE
+            }else{
+                searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.VISIBLE
+                fl_recyclerview.visibility = View.VISIBLE
+                ll_no_internet.visibility = View.GONE
+                ll_progress_bar.visibility = View.GONE
+            }
         }
     }
 

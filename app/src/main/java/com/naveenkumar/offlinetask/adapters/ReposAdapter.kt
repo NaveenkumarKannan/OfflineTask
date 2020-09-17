@@ -1,5 +1,8 @@
 package com.naveenkumar.offlinetask.adapters
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +16,7 @@ typealias ListItemClickListener = (position: Int) -> Unit
 
 class ReposAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var repo: List<Repo> = mutableListOf()
+    public var repo: List<Repo> = mutableListOf()
 
     private var mListItemClickListener: ListItemClickListener? = null
 
@@ -45,6 +48,8 @@ class ReposAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemView.tv_name.text = item.name
             itemView.tv_desc.text = item.description
             itemView.tv_lang.text = item.language
+
+            itemView.tv_star_count.text = item.stars.toString()
 
             itemView.setOnClickListener{
                 mListItemClickListener?.invoke(adapterPosition)
