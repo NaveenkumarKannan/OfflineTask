@@ -1,26 +1,26 @@
 package com.naveenkumar.offlinetask.activity
 
-import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.naveenkumar.offlinetask.R
 import com.naveenkumar.offlinetask.adapters.ReposAdapter
 import com.naveenkumar.offlinetask.api.ApiManager
 import com.naveenkumar.offlinetask.api.model.Repos
+import com.naveenkumar.offlinetask.constants.*
 import com.naveenkumar.offlinetask.data.RepoViewModel
 import com.naveenkumar.offlinetask.room.Repo
 import com.naveenkumar.offlinetask.utils.Utility
@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
         ).get(RepoViewModel::class.java)
     }
 
-    //private lateinit var dialog: ProgressDialog
-    private val TAG = "MainActivity"
     val adapter = ReposAdapter()
 
     private var mObjectiveClickedPosition: Int = -1
@@ -50,15 +48,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //dialog = ProgressDialog(this)
-        //dialog.setCancelable(false)
-
         btn_try_again.setOnClickListener {
             setItemsData()
         }
         searchBar = findViewById(R.id.searchBar)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ivLogo.transitionName = "logoTransition"
+            searchBar.rootView.findViewById<TextView>(R.id.mt_placeholder).transitionName = "textTransition"
+        }
         searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener {
-            override fun onSearchStateChanged(enabled: Boolean) {}
+            override fun onSearchStateChanged(enabled: Boolean) {
+                if(enabled){
+                    ivLogo.visibility = View.GONE
+                }else{
+                    ivLogo.visibility = View.VISIBLE
+                }
+            }
 
             override fun onSearchConfirmed(text: CharSequence?) {}
 
@@ -84,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 i1: Int,
                 i2: Int
             ) {
-                Log.d("LOG_TAG", javaClass.simpleName + " text changed " + searchBar.text)
                 searchNames(searchBar.text)
             }
 
@@ -126,27 +130,11 @@ class MainActivity : AppCompatActivity() {
         srl.setColorSchemeColors(Color.DKGRAY)
 
         srl.setOnRefreshListener {
-            if(Utility.checkInternetConnection(this)){
-                repoViewModel.deleteAllRepos()
-            }
             setItemsData()
         }
         setItemsData()
     }
 
-    override fun onPause() {
-        super.onPause()
-        /*if (dialog.isShowing) {
-            dialog.show()
-        }*/
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        /*if (dialog.isShowing) {
-            dialog.show()
-        }*/
-    }
 
     private fun setItemsData() {
         if(!isLocalRepo){
@@ -163,10 +151,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if (Utility.checkInternetConnection(this)) {
-            //dialog.setMessage("Please wait...")
-            //dialog.show()
             srl.isRefreshing = true
-            //adapter.repos = mutableListOf()
             Utility.startRetrofit()
             val apiManager = Utility.retrofit.create(ApiManager::class.java)
 
@@ -176,29 +161,27 @@ class MainActivity : AppCompatActivity() {
                     call: Call<List<Repos?>?>?,
                     response: Response<List<Repos?>?>?
                 ) {
-                    /*if (dialog.isShowing)
-                        dialog.dismiss()*/
                     if (response?.body() != null) {
-                        Log.e(TAG, Gson().toJson(response.body()))
                         rv_repos.layoutManager = LinearLayoutManager(this@MainActivity)
                         rv_repos.setHasFixedSize(true)
                         rv_repos.adapter = adapter
                         srl.isRefreshing = false
-                        //adapter.setData(response?.body() as ArrayList<Repos>)
-                        var repos = response.body() as ArrayList<Repos>
 
+                        repoViewModel.deleteAllRepos()
+                        val repos = response.body() as ArrayList<Repos>
                         for (repo in repos) {
                             val newRepo = Repo(
-                                author = repo.author as? String,
-                                name = repo.name as? String,
-                                avatar = repo.avatar as? String,
-                                url = repo.url as? String,
-                                description = repo.description as? String,
-                                language = repo.language as? String,
-                                languageColor = repo.languageColor as? String,
-                                stars = repo.stars as? Int,
-                                forks = repo.forks as? Int,
-                                currentPeriodStars = repo.currentPeriodStars as? Int
+                                author = repo.author,
+                                name = repo.name,
+                                avatar = repo.avatar,
+                                url = repo.url,
+                                description = repo.description,
+                                language = repo.language,
+                                languageColor = repo.languageColor,
+                                stars = repo.stars,
+                                forks = repo.forks,
+                                currentPeriodStars = repo.currentPeriodStars,
+                                builtBy = repo.builtBy
                             )
 
                             repoViewModel.insert(newRepo)
@@ -207,25 +190,16 @@ class MainActivity : AppCompatActivity() {
                         fl_recyclerview.visibility = View.VISIBLE
                         ll_no_internet.visibility = View.GONE
                         ll_progress_bar.visibility = View.GONE
-                    } else {
-                        Log.e(TAG, "Null Response")
                     }
                 }
 
                 override fun onFailure(call: Call<List<Repos?>?>?, t: Throwable) {
                     srl.isRefreshing = false
-                    /*if (dialog.isShowing) {
-                        dialog.dismiss()
-                    }*/
-                    Log.e(TAG, "onFailure $t")
                 }
             })
         } else run {
             Utility.makeText(baseContext, "No network connection", Toast.LENGTH_SHORT)
             srl.isRefreshing = false
-            /*if (dialog.isShowing) {
-                dialog.dismiss()
-            }*/
 
             if(!isLocalRepo){
                 searchBar.rootView.findViewById<ImageView>(R.id.mt_search).visibility = View.GONE
@@ -252,15 +226,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToViewRepoActivity() {
-
-        /*val intent = Intent(this, ViewRepoActivity::class.java)
-
+        val intent = Intent(this, ViewRepoActivity::class.java)
         repoViewModel.getAllRepos().observe(this, Observer {
-            intent.putExtra(NAME, it[mObjectiveClickedPosition].title)
-            intent.putExtra(ADDRESS, it[mObjectiveClickedPosition].address)
-            intent.putExtra(PHONE_NUMBER, it[mObjectiveClickedPosition].phoneNumber)
-            intent.putExtra(POSITION, it[mObjectiveClickedPosition].position)
+            intent.putExtra(ID, it[mObjectiveClickedPosition].id)
+            /*intent.putExtra(AUTHOR, it[mObjectiveClickedPosition].author)
+            intent.putExtra(NAME, it[mObjectiveClickedPosition].name)
+            intent.putExtra(AVATAR, it[mObjectiveClickedPosition].avatar)
+            intent.putExtra(URL, it[mObjectiveClickedPosition].url)
+            intent.putExtra(DESCRIPTION, it[mObjectiveClickedPosition].description)
+            intent.putExtra(LANGUAGE, it[mObjectiveClickedPosition].language)
+            intent.putExtra(LANGUAGE_COLOR, it[mObjectiveClickedPosition].languageColor)
+            intent.putExtra(STARS, it[mObjectiveClickedPosition].stars)
+            intent.putExtra(FORKS, it[mObjectiveClickedPosition].forks)
+            intent.putExtra(CURRENT_PERIOD_STARS, it[mObjectiveClickedPosition].currentPeriodStars)
+            intent.putExtra(URL, it[mObjectiveClickedPosition].url)*/
         })
-        startActivity(intent)*/
+        startActivity(intent)
+    }
+    override fun onBackPressed() {
+        Utility.onBack(this)
     }
 }

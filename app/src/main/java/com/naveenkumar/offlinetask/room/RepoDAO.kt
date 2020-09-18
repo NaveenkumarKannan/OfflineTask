@@ -24,4 +24,6 @@ interface RepoDAO {
 
     @Query("SELECT * FROM repo_table  WHERE name LIKE :query")
     fun getRepoName(query: String): LiveData<List<Repo>>
+    @Query("SELECT * FROM repo_table  WHERE id=:query")
+    fun getRepoById(query: Int): LiveData<Repo>
 }

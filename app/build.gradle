@@ -60,4 +60,7 @@ dependencies {
 
     //MaterialSearchBar
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
 }

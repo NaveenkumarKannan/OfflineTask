@@ -30,7 +30,12 @@ class RepoViewModel(application: Application) :AndroidViewModel(application) {
     fun getAllRepos(): LiveData<List<Repo>> {
         return allRepos
     }
+
     fun searchNamesFromDb(searchText: String): LiveData<List<Repo>> {
         return repository.searchNamesFromDb(searchText)
+    }
+
+    fun getRepoById(id: Int): LiveData<Repo> {
+        return repository.getRepoById(id)
     }
 }

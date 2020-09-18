@@ -2,6 +2,8 @@ package com.naveenkumar.offlinetask.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.naveenkumar.offlinetask.api.model.BuiltBy
 
 @Entity(tableName = "repo_table")
 data class Repo(
@@ -14,8 +16,9 @@ data class Repo(
     var languageColor: String?,
     var stars: Int?,
     var forks: Int?,
-    var currentPeriodStars: Int?//,
-    //var builtBy: List<BuiltBy>
+    var currentPeriodStars: Int?,
+    @TypeConverters(BuiltByConverter::class)
+    var builtBy: List<BuiltBy>?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

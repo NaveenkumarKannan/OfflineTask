@@ -1,5 +1,6 @@
 package com.naveenkumar.offlinetask.constants
 
+const val ID = "id"
 const val AUTHOR = "author"
 const val NAME = "name"
 const val AVATAR = "avatar"
@@ -10,4 +11,3 @@ const val LANGUAGE_COLOR= "languageColor"
 const val STARS= "stars"
 const val FORKS = "forks"
 const val CURRENT_PERIOD_STARS = "currentPeriodStars"
-const val BUILT_BY = "builtBy"
