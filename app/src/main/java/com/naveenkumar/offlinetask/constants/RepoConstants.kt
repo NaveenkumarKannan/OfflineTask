@@ -10,4 +10,4 @@ const val LANGUAGE_COLOR= "languageColor"
 const val STARS= "stars"
 const val FORKS = "forks"
 const val CURRENT_PERIOD_STARS = "currentPeriodStars"
-//const val BUILT_BY = "builtBy"\
+const val BUILT_BY = "builtBy"

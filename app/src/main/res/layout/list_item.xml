@@ -66,10 +66,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_alignParentStart="true">
-                <ImageView
-                    android:id="@+id/iv_language_color"
-                    android:layout_width="9sp"
-                    android:layout_height="9sp"
+                <TextView
+                    android:id="@+id/tv_language_color"
+                    android:layout_width="8sp"
+                    android:layout_height="8sp"
                     android:background="@drawable/circle"
                     android:layout_gravity="center"
                     tools:ignore="SmallSp" />
