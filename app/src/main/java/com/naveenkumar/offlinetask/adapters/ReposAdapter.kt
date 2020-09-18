@@ -2,13 +2,10 @@ package com.naveenkumar.offlinetask.adapters
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.naveenkumar.offlinetask.R
 import com.naveenkumar.offlinetask.room.Repo
 import kotlinx.android.extensions.LayoutContainer
@@ -59,8 +56,6 @@ class ReposAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val pColor = Color.parseColor(color)
                 (gradientDrawable as GradientDrawable).setColor(pColor)
             }
-
-            //itemView.tv_language_color.background = gradientDrawable
 
             itemView.tv_star_count.text = item.stars.toString()
 

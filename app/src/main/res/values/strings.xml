@@ -9,4 +9,8 @@
     <string name="please_check_your_network_connection">Please check your network connection</string>
     <string name="square">square</string>
     <string name="star_count">43</string>
+    <string name="view_repository">View Repository</string>
+    <string name="author">Author: </string>
+    <string name="see_it_on_github">See it on GitHub</string>
+    <string name="built_by">Built By:</string>
 </resources>

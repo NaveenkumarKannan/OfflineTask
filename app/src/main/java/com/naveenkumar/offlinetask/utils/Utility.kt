@@ -3,8 +3,12 @@ package com.naveenkumar.offlinetask.utils
 import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
+import android.os.Handler
+import android.util.Log
 import android.widget.Toast
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.GsonBuilder
+import com.naveenkumar.offlinetask.R
 import com.naveenkumar.offlinetask.network.TLSSocketFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -60,6 +64,33 @@ class Utility {
 
             toast = Toast.makeText(context, message, value)
             toast!!.show()
+        }
+        fun log(message: String) {
+            Log.e("Utility", "log: $message")
+        }
+        fun log(message: String, TAG: String) {
+            Log.e(TAG, "log: $message")
+        }
+        private var exit = false
+
+        fun onBack(activity: Activity) {
+            if (exit) {
+                activity.finish()
+            } else {
+                Toast.makeText(
+                    activity, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                exit = true
+                Handler().postDelayed({ exit = false }, 3 * 1000.toLong())
+            }
+        }
+
+        fun options(): RequestOptions {
+            return RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
         }
     }
 

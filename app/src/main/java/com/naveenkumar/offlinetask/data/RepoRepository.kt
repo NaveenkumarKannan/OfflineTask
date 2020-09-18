@@ -54,6 +54,9 @@ class RepoRepository(application: Application) {
     fun searchNamesFromDb(searchText: String): LiveData<List<Repo>> {
         return repoDao.getRepoName(searchText)
     }
+    fun getRepoById(id: Int): LiveData<Repo> {
+        return repoDao.getRepoById(id)
+    }
      companion object {
          private class InsertRepoAsyncTask(val repoDao: RepoDAO) : AsyncTask<Repo, Unit, Unit>() {
 

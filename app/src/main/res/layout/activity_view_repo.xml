@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ViewRepoActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_left_black_48dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_view_repo"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/view_repository"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:visibility="visible" />
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/author"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    tools:ignore="SmallSp" />
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/square"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/square"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/square"
+                        android:layout_marginStart="5dp"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:textColor="#333333"
+                    android:textSize="17sp"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_alignParentStart="true">
+                        <TextView
+                            android:id="@+id/tv_language_color"
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/circle"
+                            android:layout_gravity="center"
+                            tools:ignore="SmallSp" />
+
+                        <TextView
+                            android:id="@+id/tv_lang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lang"
+                            android:textColor="@color/grey"
+                            android:textSize="15sp"
+                            android:layout_marginStart="5dp"
+                            android:paddingStart="3dp"
+                            android:paddingEnd="3dp"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/fork"/>
+
+                        <TextView
+                            android:id="@+id/tv_fork_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/star_count"
+                            android:textColor="@color/grey"
+                            android:textSize="15sp"
+                            android:layout_marginStart="5dp"
+                            android:paddingStart="3dp"
+                            android:paddingEnd="3dp"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/star"/>
+
+                        <TextView
+                            android:id="@+id/tv_star_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/star_count"
+                            android:textColor="@color/grey"
+                            android:textSize="15sp"
+                            android:layout_marginStart="5dp"
+                            android:paddingStart="3dp"
+                            android:paddingEnd="3dp"
+                            />
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <Button
+                    android:id="@+id/btn_github"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_it_on_github"
+                    android:textColor="@color/blue"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/button_ripple_effect"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/built_by"
+                    android:layout_marginStart="5dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    tools:ignore="SmallSp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_built_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/built_by_list_item"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*Note: Click profile images to see their github page"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
